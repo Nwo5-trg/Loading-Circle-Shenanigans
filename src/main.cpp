@@ -2,6 +2,7 @@
 #include <nwo5.silly-api/include/include.hpp>
 #include <alphalaneous.alphas_geode_utils/include/ObjectModify.hpp>
 #include <Geode/ui/LoadingSpinner.hpp>
+#include <asp/fs.hpp>
 #include "settings.hpp"
 
 using namespace geode::prelude;
@@ -11,7 +12,7 @@ using namespace nwo5::prelude;
 class CustomLoadingSprite final : public CCSprite {
 protected:
     bool init() {
-        const auto texture = Settings::useCustomImage.get() && std::filesystem::exists(Settings::customImage)
+        const auto texture = Settings::useCustomImage.get() && asp::fs::exists(Settings::customImage)
             ? string::pathToString(Settings::customImage.get())
             : "loadingCircle.png";
 
