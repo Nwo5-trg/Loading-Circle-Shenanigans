@@ -81,6 +81,11 @@ public:
 };
 
 class $modify(LoadingCircle) {
+    static void onModify(auto& pSelf) {
+        (void)pSelf.setHookPriority("LoadingCircle::init", Priority::Replace);
+        (void)pSelf.setHookPriority("LoadingCircle::show", Priority::Replace);
+    }
+
     bool init() {
         if (!Settings::enabled) {
             return LoadingCircle::init();
