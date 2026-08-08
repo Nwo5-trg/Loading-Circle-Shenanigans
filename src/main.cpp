@@ -12,10 +12,10 @@ class CustomLoadingSprite final : public CCSprite {
 protected:
     bool init() {
         const auto texture = Settings::useCustomImage.get() && std::filesystem::exists(Settings::customImage)
-            ? Settings::customImage.get().c_str()
+            ? string::pathToString(Settings::customImage.get())
             : "loadingCircle.png";
 
-        if (!CCSprite::initWithFile(texture)) {
+        if (!CCSprite::initWithFile(texture.c_str())) {
             return false;
         }
 
