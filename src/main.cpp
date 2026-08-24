@@ -12,7 +12,7 @@ using namespace nwo5::prelude;
 class CustomLoadingSprite final : public CCSprite {
 protected:
     bool init() {
-        const auto texture = Settings::useCustomImage.get() && asp::fs::exists(Settings::customImage)
+        const auto texture = Settings::useCustomImage && asp::fs::exists(Settings::customImage)
             ? string::pathToString(Settings::customImage.get())
             : "loadingCircle.png";
 
@@ -22,12 +22,12 @@ protected:
 
         Setup(this)
             .id("custom-spinner"_spr)
-            .scale(Settings::scale);
-        this->setBlendFunc({GL_SRC_ALPHA, GL_ONE});
+            .scale(Settings::scale)
+            .blendFunc({GL_SRC_ALPHA, GL_ONE});
 
-        if (Settings::spin.get()) {
+        if (Settings::spin) {
             this->runAction(
-                CCRepeatForever::create(CCRotateBy::create(Settings::speed.get(), 360.0f))
+                CCRepeatForever::create(CCRotateBy::create(Settings::speed, 360.0f))
             );
         }
 
@@ -36,7 +36,7 @@ protected:
         return true;
     }
 
-    void update(float) {
+    void update(float = float{}) {
         // loadingspinner
         if (auto spr = this->getParent()->getChildByType<CCSprite*>(0); spr && spr != this) {
             spr->setDontDraw(true);
@@ -75,7 +75,7 @@ public:
 
     void forceUpdate() {
         if (this->getParent()) {
-            this->update({});
+            this->update();
         }
     }
 };
@@ -98,8 +98,8 @@ class $modify(LoadingCircle) {
         m_sprite = Setup(CustomLoadingSprite::create())
             .pos(CCDirector::get()->getWinSize() / 2)
             .scale(Settings::scale)
-            .parent(this);
-        m_sprite->setBlendFunc({GL_SRC_ALPHA, GL_ONE});
+            .parent(this)
+            .blendFunc({GL_SRC_ALPHA, GL_ONE});
         
         return true;
     }
@@ -142,11 +142,10 @@ class $nodeModify(LoadingCircleSprite) {
 
         this->stopAllActions();
 
-        auto spr = ui::node(Setup(CustomLoadingSprite::create())
+        auto spr = *Setup(CustomLoadingSprite::create())
             .scale(Settings::scale)
             .parent(this)
-            .center()
-        );
+            .center();
         
         spr->forceUpdate();
     }
