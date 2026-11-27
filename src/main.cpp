@@ -1,19 +1,19 @@
 #include <Geode/modify/LoadingCircle.hpp>
-#include <nwo5.silly-api/include/include.hpp>
-#include <alphalaneous.alphas_geode_utils/include/ObjectModify.hpp>
+#include <nwo5.silly-api/include.hpp>
+#include <alphalaneous.alphas_geode_utils/ObjectModify.hpp>
 #include <Geode/ui/LoadingSpinner.hpp>
 #include <asp/fs.hpp>
 #include "settings.hpp"
 
-using namespace geode::prelude;
 using namespace alpha::utils;
 using namespace nwo5::prelude;
+using namespace geode::prelude;
 
 class CustomLoadingSprite final : public CCSprite {
 protected:
     bool init() {
-        const auto texture = Settings::useCustomImage && asp::fs::exists(Settings::customImage)
-            ? string::pathToString(Settings::customImage.get())
+        const auto texture = Settings::useCustomImage && Settings::customImage.get().exists()
+            ? Settings::customImage.get().string()
             : "loadingCircle.png";
 
         if (!CCSprite::initWithFile(texture.c_str())) {
@@ -163,7 +163,3 @@ class $nodeModify(geode::LoadingSpinner) {
         spr->forceUpdate();
     }
 };
-
-$on_mod(Loaded) {
-    SettingsManager::get()->load();
-}

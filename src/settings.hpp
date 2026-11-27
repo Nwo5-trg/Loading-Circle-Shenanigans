@@ -1,17 +1,17 @@
 #pragma once
 
-#include <nwo5.silly-api/include/settings/include.hpp>
+#include <nwo5.silly-api/cache/include.hpp>
 
-using namespace nwo5::settings::prelude;
+using namespace nwo5::cache::prelude;
 
 namespace Settings {
-    inline Setting<bool> enabled{"enabled"};
-    inline Setting<bool> useCustomImage{"use-custom-image"};
-    inline Setting<std::filesystem::path> customImage{"custom-image"};
-    inline Setting<bool> spin{"spin"};
-    inline Setting<float> scale{"scale"};
-    inline Setting<float> speed{"speed"};
-    inline Setting<cocos2d::ccColor3B> color{"color"};
-    inline Setting<bool> chroma{"chroma"};
-    inline Setting<float> chromaSpeed{"chroma-speed"};
+    inline SettingCache<bool> enabled{"enabled"};
+    inline SettingCache<bool> useCustomImage{"use-custom-image"};
+    inline SettingCache<asp::fs::Path> customImage{"custom-image"};
+    inline SettingCache<bool> spin{"spin"};
+    inline SettingCache<float> scale{"scale"};
+    inline SettingCache<float> speed{"speed"};
+    inline SettingCache<cocos2d::ccColor3B> color{"color"};
+    inline SettingCache<bool> chroma{"chroma"};
+    inline SettingCache<float> chromaSpeed{"chroma-speed"};
 }
